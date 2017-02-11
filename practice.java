@@ -19,7 +19,15 @@ public class practice {
 				ans[i]=ans[i]*syno[i];
 			}
 		}else {
-			
+			//calculating exp(-x)
+			for(int i=0;i<syno.length;i++){
+				ans[i]=ans[i]*(-1);
+				ans[i]=Math.exp(ans[i]);
+				ans[i]=ans[i]+1;
+			}
+			for(int i=0;i<syno.length;i++){
+				ans[i]=1/(ans[i]);
+			}
 		}
 		return ans;
 	}
