@@ -6,7 +6,7 @@ public class practice {
 		double ans[] = new double[syno.length];
 		if(deriv == true){
 		    //complement of the syno for returning x*(1-x)
-			for(int i=syno.length-1,j=0;i>=0;i++){
+			for(int i=syno.length-1,j=0;i>=0;i--){
 				if(syno[i]==0){
 					ans[j]=1;
 					j++;
@@ -69,6 +69,10 @@ public class practice {
 		
 		double [][] fl;
 		double [] sl;
+		double [] l1_error;
+		l1_error = new double[out.length];
+		double [] l1_delta = new double[out.length];
+		
 		for(int epoch = 0; epoch < maxEpoch; epoch++) { 
 			
 			//forward propogation
@@ -84,7 +88,34 @@ public class practice {
 				System.out.println(sl[i]+" ");
 			}
 			System.out.println("\n");
+			//print till forward propogation
 			
-		}
+			//how much we miss ? ? 
+			for(int i=0;i<out.length;i++) {
+				l1_error[i] = out[i] - sl[i];
+			}
+			
+			//applying sigmoid at the value in l1
+			sl=nonlin(sl,true);
+			
+			//multiply by the value that how much we have missed
+			for(int i=0;i<out.length;i++){
+				l1_delta[i] = l1_error[i]*sl[i]; 
+			}
+			
+			//dot product of the input clone and l1_delta
+			l1_delta = maxtrixmulti(fl,l1_delta);
+			
+			//update weight product
+			
+			for(int i=0;i<out.length;i++){
+				sl[i]=sl[i]+l1_delta[i];
+			}
+			
+			for(int i=0;i<out.length;i++){
+				System.out.println(sl[i]+" ");
+			}
+			System.out.println("\n");
+		}   
 	}
 }
