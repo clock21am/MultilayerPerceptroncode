@@ -17,6 +17,7 @@ public class mlp {
 		b1 = s.nextDouble();
 		double b2;
 		b2 = s.nextDouble();
+		double eta = 0.5;
 		for(int i=0;i<nofi;i++){
 			for(int j=0;j<nofh;i++){
 				 wih[i][j] = s.nextDouble();
@@ -67,12 +68,32 @@ public class mlp {
 		//thereby minimizing the error for each output neuron and the network as a whole.
 		
 		
-		//Applying delta rule in the  
+		//Applying delta rule in the output layer
 		double[] oe1 = new double[nofo];
 		for(int i=0;i<nofo;i++){
 				oe1[i] = (neto[i]-traino[i])*neto[i]*(1-neto[i])*neto[i];
 		}
 		
+		
+		//we will update the weight of hidden layer and output layer
+		for(int i=0;i<nofo;i++){
+			for(int j=0;j<nofh;j++){
+				who[i][j] = who[i][j] - (eta*oe1[i]);
+			}
+		}
+		
+	    //now applying delta rule in the hidden and input layer
+		// i am doubtful about this step
+	    double[] eo2 = new double[nofh];
+	    for(int i=0;i<nofh;i++){
+			 eo2[i] =  (neto[i]-traino[i])*neth[i]*(1-neth[i])*neto[i];
+		}
+			 
+		for(int i=0;i<nofh;i++){
+		   for(int j=0;j<nofi;j++)	
+			  wih[i][j] = wih[i][j] - (eta*eo2[i]);
+		}
+		//this is the final update we have got 
 	}
 
 }
